@@ -22,7 +22,7 @@ namespace CcAcca.ProblemDetails.Helpers
         /// </summary>
         public static object RemoveExtensionValue(this MvcProblemDetails problem, string key)
         {
-            return DoRemoveExtensionValue(problem, key) ?? DoRemoveExtensionValue(problem, PascalCase(key));
+            return DoRemoveExtensionValue(problem, key) ?? DoRemoveExtensionValue(problem, StringUtils.PascalCase(key));
         }
 
         private static object DoRemoveExtensionValue(MvcProblemDetails problem, string key)
@@ -32,11 +32,6 @@ namespace CcAcca.ProblemDetails.Helpers
             var value = problem.Extensions[key];
             problem.Extensions.Remove(key);
             return value;
-        }
-
-        private static string PascalCase(string s)
-        {
-            return char.ToUpper(s[0]) + s.Substring(1);
         }
     }
 }

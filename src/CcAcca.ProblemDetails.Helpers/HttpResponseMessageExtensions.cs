@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace CcAcca.ProblemDetails.Helpers
             var traceId = problem.RemoveExtensionValue("traceId");
             if (traceId != null)
             {
-                problem.Extensions["CorrelationId"] = traceId;
+                problem.Extensions[GetExtensionValueKey("correlationId")] = traceId;
             }
 
             throw new ProblemDetailsException(problem);
@@ -66,6 +67,13 @@ namespace CcAcca.ProblemDetails.Helpers
             {
                 source.EnsureSuccessStatusCode();
             }
+        }
+
+        private static string GetExtensionValueKey(string key)
+        {
+            return JsonProblemDetailsConverter.SerializerOptions.PropertyNamingPolicy == JsonNamingPolicy.CamelCase
+                ? key
+                : StringUtils.PascalCase(key);
         }
     }
 }

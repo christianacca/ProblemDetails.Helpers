@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using CcAcca.ProblemDetails.Helpers.Tests.Fixtures;
 using FluentAssertions;
@@ -75,13 +76,49 @@ namespace CcAcca.ProblemDetails.Helpers.Tests
             {
                 Extensions =
                 {
-                    {"CorrelationId", traceId}
+                    {"correlationId", traceId}
                 }
             };
             problem.CopyStandardFieldsTo(expected);
 
             (await act.Should().ThrowAsync<ProblemDetailsException>())
                 .Which.Details.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async void CorrelationId_Should_Use_Configured_Casing()
+        {
+            var originalSettings = JsonProblemDetailsConverter.SerializerOptions;
+            try
+            {
+                // given
+                JsonProblemDetailsConverter.SerializerOptions = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = null // Pascal casing
+                };
+                const string traceId = "123";
+                var problem = new MvcProblemDetails
+                {
+                    Extensions =
+                    {
+                        {"traceId", traceId}
+                    }
+                };
+                New.ProblemDetails.BadRequest.CopyStandardFieldsTo(problem);
+
+                var response = await New.HttpResponseMessage.Of(problem);
+
+                // when
+                Func<Task> act = async () => await response.EnsureNotProblemDetailAsync();
+
+                // then
+                (await act.Should().ThrowAsync<ProblemDetailsException>())
+                    .Which.Details.Extensions.Should().ContainKey("CorrelationId");
+            }
+            finally
+            {
+                JsonProblemDetailsConverter.SerializerOptions = originalSettings;
+            }
         }
     }
 }

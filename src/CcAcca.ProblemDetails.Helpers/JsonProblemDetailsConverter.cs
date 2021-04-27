@@ -52,7 +52,7 @@ namespace CcAcca.ProblemDetails.Helpers
             SerializerOptions.IgnoreNullValues = true;
         }
 
-        public static JsonSerializerOptions SerializerOptions { get; }
+        public static JsonSerializerOptions SerializerOptions { get; internal set; }
 
         public static JsonSerializerSettings DeserializerSettings { get; } =
             JsonSerializerSettingsProvider.CreateSerializerSettings();
