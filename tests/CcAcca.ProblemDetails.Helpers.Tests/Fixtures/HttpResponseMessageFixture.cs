@@ -13,9 +13,9 @@ namespace CcAcca.ProblemDetails.Helpers.Tests.Fixtures
             where T : Microsoft.AspNetCore.Mvc.ProblemDetails
         {
             var mockHttp = new MockHttpMessageHandler();
+            var content = JsonProblemDetailsConverter.Serialize(problem);
             mockHttp.When("https://whatever-url")
-                .Respond(HttpStatusCode.BadRequest, HttpContentExtensions.ProblemDetailsMediaType,
-                    JsonProblemDetailsConverter.Serialize(problem));
+                .Respond(HttpStatusCode.BadRequest, HttpContentExtensions.ProblemDetailsMediaType, content);
 
             var request = new HttpRequestMessage(HttpMethod.Get, "https://whatever-url");
             return await mockHttp.ToHttpClient().SendAsync(request);
@@ -29,6 +29,7 @@ namespace CcAcca.ProblemDetails.Helpers.Tests.Fixtures
             var request = new HttpRequestMessage(HttpMethod.Get, "https://whatever-url");
             return await mockHttp.ToHttpClient().SendAsync(request);
         }
+
         public async Task<HttpResponseMessage> EmptyInternalServerError()
         {
             var mockHttp = new MockHttpMessageHandler();

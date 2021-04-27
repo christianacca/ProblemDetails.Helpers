@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using MvcProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace CcAcca.ProblemDetails.Helpers
@@ -13,14 +14,14 @@ namespace CcAcca.ProblemDetails.Helpers
         private static readonly string ErrorsFieldKey = $"\"{nameof(ValidationProblemDetails.Errors)}\"";
 
         /// <summary>
-        /// Deserialize the content of the HTTP content as a <see cref="MvcProblemDetails"/>. Returns <c>Null</c>
-        /// where there is the content is empty or does not have the ProblemDetails media type
+        ///     Deserialize the content of the HTTP content as a <see cref="MvcProblemDetails" />. Returns <c>Null</c>
+        ///     where there is the content is empty or does not have the ProblemDetails media type
         /// </summary>
         /// <remarks>
-        /// A "best-effort" attempt will be made to discover whether to deserialize to a
-        /// <see cref="ValidationProblemDetails"/> where there is an errors field that has the shape of the
-        /// <see cref="ValidationProblemDetails.Errors"/> dictionary. Otherwise the content will be
-        /// deserialized as a <see cref="MvcProblemDetails"/> instance
+        ///     A "best-effort" attempt will be made to discover whether to deserialize to a
+        ///     <see cref="ValidationProblemDetails" /> where there is an errors field that has the shape of the
+        ///     <see cref="ValidationProblemDetails.Errors" /> dictionary. Otherwise the content will be
+        ///     deserialized as a <see cref="MvcProblemDetails" /> instance
         /// </remarks>
         /// <param name="content">The content to deserialize</param>
         public static async Task<MvcProblemDetails> ReadAsProblemDetailsAsync(this HttpContent content)
@@ -31,8 +32,18 @@ namespace CcAcca.ProblemDetails.Helpers
 
             if (rawProblem.Contains(ErrorsFieldKey, StringComparison.OrdinalIgnoreCase))
             {
-                var validationProblem = JsonProblemDetailsConverter.Deserialize<ValidationProblemDetails>(rawProblem);
-                return validationProblem.Errors.Count == 0
+                ValidationProblemDetails validationProblem = null;
+
+                try
+                {
+                    validationProblem = JsonProblemDetailsConverter.Deserialize<ValidationProblemDetails>(rawProblem);
+                }
+                catch (JsonSerializationException)
+                {
+                    // we're going to fallback so ignore this exception
+                }
+
+                return validationProblem == null || validationProblem.Errors.Count == 0
                     // the response wasn't really a ValidationProblemDetails, therefore fallback
                     ? JsonProblemDetailsConverter.Deserialize<MvcProblemDetails>(rawProblem)
                     : validationProblem;
@@ -42,8 +53,8 @@ namespace CcAcca.ProblemDetails.Helpers
         }
 
         /// <summary>
-        /// Deserialize the content of the HTTP content as a <see cref="MvcProblemDetails"/>. Returns <c>Null</c>
-        /// where there is the content is empty or does not have the ProblemDetails media type
+        ///     Deserialize the content of the HTTP content as a <see cref="MvcProblemDetails" />. Returns <c>Null</c>
+        ///     where there is the content is empty or does not have the ProblemDetails media type
         /// </summary>
         /// <param name="content">The content to deserialize</param>
         /// <typeparam name="T">The target type to deserialize</typeparam>

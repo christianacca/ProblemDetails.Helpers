@@ -83,5 +83,39 @@ namespace CcAcca.ProblemDetails.Helpers.Tests
             // then
             actual.Should().NotBeOfType<ValidationProblemDetails>().And.BeEquivalentTo(problem);
         }
+
+        [Fact]
+        public async void When_Cannot_Deserialize_To_ValidationProblemDetails_Errors_Should_Fallback_To_ProblemDetails()
+        {
+            // given
+            var errorObject = new ErrorObject
+            {
+                Message = "Foo bar",
+                Raw = "<Foo bar>"
+            };
+            var problem = new MvcProblemDetails
+            {
+                Extensions =
+                {
+                    {"errors", new[] {errorObject}}
+                }
+            };
+            New.ProblemDetails.BadRequest.CopyStandardFieldsTo(problem);
+
+            var response = await New.HttpResponseMessage.Of(problem);
+
+            // when
+            var actual = await response.Content.ReadAsProblemDetailsAsync();
+
+            // then
+            actual.Should().BeOfType<MvcProblemDetails>();
+            actual.Extensions.Should().ContainKey("errors");
+        }
+    }
+
+    public class ErrorObject
+    {
+        public string Message { get; set; }
+        public string Raw { get; set; }
     }
 }

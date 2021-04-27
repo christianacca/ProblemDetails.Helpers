@@ -20,7 +20,7 @@ namespace CcAcca.ProblemDetails.Helpers
         ///     </para>
         ///     <para>
         ///         Any TraceId field found on the deserialized ProblemDetails instance will be re-mapped and
-        ///         added to <see cref="ProblemDetails.Extensions"/> as CorrelationId
+        ///         added to <see cref="ProblemDetails.Extensions" /> as CorrelationId
         ///     </para>
         /// </remarks>
         public static async Task EnsureNotProblemDetailAsync(this HttpResponseMessage source)
@@ -53,7 +53,7 @@ namespace CcAcca.ProblemDetails.Helpers
         ///     </para>
         ///     <para>
         ///         Any TraceId field found on the deserialized ProblemDetails instance will be re-mapped and
-        ///         added to <see cref="ProblemDetails.Extensions"/> as CorrelationId
+        ///         added to <see cref="ProblemDetails.Extensions" /> as CorrelationId
         ///     </para>
         /// </remarks>
         public static async Task EnsureSuccessAsync(this HttpResponseMessage source)

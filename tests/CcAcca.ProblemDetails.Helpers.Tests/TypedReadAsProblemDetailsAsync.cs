@@ -40,7 +40,7 @@ namespace CcAcca.ProblemDetails.Helpers.Tests
             var response = await New.HttpResponseMessage.Of(problem);
 
             // when
-            CustomProblemDetails actual = await response.Content.ReadAsProblemDetailsAsync<CustomProblemDetails>();
+            var actual = await response.Content.ReadAsProblemDetailsAsync<CustomProblemDetails>();
 
             // then
             actual.Should().BeEquivalentTo(problem);

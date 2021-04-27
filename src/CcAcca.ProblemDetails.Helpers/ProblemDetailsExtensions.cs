@@ -5,7 +5,7 @@ namespace CcAcca.ProblemDetails.Helpers
     public static class ProblemDetailsExtensions
     {
         /// <summary>
-        /// Copy the fields defined in the RFC-7807 spec from <paramref name="source"/> to <paramref name="target"/>
+        ///     Copy the fields defined in the RFC-7807 spec from <paramref name="source" /> to <paramref name="target" />
         /// </summary>
         public static void CopyStandardFieldsTo(this MvcProblemDetails source, MvcProblemDetails target)
         {
@@ -17,8 +17,8 @@ namespace CcAcca.ProblemDetails.Helpers
         }
 
         /// <summary>
-        /// Attempts to remove the entry in <see cref="MvcProblemDetails.Extensions"/> matching the
-        /// <paramref name="key"/>, returning the value of the entry removed, if any.
+        ///     Attempts to remove the entry in <see cref="MvcProblemDetails.Extensions" /> matching the
+        ///     <paramref name="key" />, returning the value of the entry removed, if any.
         /// </summary>
         public static object RemoveExtensionValue(this MvcProblemDetails problem, string key)
         {
