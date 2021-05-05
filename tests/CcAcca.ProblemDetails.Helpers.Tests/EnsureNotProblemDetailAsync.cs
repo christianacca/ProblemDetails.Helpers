@@ -88,6 +88,11 @@ namespace CcAcca.ProblemDetails.Helpers.Tests
         [Fact]
         public async void CorrelationId_Should_Use_Configured_Casing()
         {
+            // IMPORTANT: This is causing flaky tests as we're modifying static fields and yet xunit will run
+            // tests is parallel and so the change to this static field will apply to those tests that are running
+            // in parallel with this one!
+            // todo: resolve test flake by making this test run NOT in parallel with other tests
+
             var originalSettings = JsonProblemDetailsConverter.SerializerOptions;
             try
             {
