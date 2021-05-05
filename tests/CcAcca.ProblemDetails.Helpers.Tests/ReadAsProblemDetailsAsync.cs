@@ -26,7 +26,20 @@ namespace CcAcca.ProblemDetails.Helpers.Tests
         public async void Should_Return_Null_When_Response_Has_No_Content()
         {
             // given
-            var response = await New.HttpResponseMessage.Success();
+            var response = await New.HttpResponseMessage.EmptySuccess();
+
+            // when
+            var problem = await response.Content.ReadAsProblemDetailsAsync();
+
+            // then
+            problem.Should().BeNull();
+        }
+
+        [Fact]
+        public async void Should_Return_Null_When_Response_Has_No_ContentType_Header()
+        {
+            // given
+            var response = await New.HttpResponseMessage.NoContentTypeHeader();
 
             // when
             var problem = await response.Content.ReadAsProblemDetailsAsync();
@@ -39,7 +52,7 @@ namespace CcAcca.ProblemDetails.Helpers.Tests
         public async void Should_Return_Null_When_Not_ProblemDetails_Response()
         {
             // given
-            var response = await New.HttpResponseMessage.EmptySuccess();
+            var response = await New.HttpResponseMessage.Success();
 
             // when
             var problem = await response.Content.ReadAsProblemDetailsAsync();

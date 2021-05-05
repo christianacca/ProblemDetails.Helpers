@@ -71,7 +71,7 @@ namespace CcAcca.ProblemDetails.Helpers
         /// </summary>
         public static bool IsProblemDetails(this HttpContent content)
         {
-            return content?.Headers.ContentType.MediaType == ProblemDetailsMediaType;
+            return content?.Headers.ContentType?.MediaType == ProblemDetailsMediaType;
         }
     }
 }

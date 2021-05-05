@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,6 +36,17 @@ namespace CcAcca.ProblemDetails.Helpers.Tests.Fixtures
         {
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://whatever-url").Respond(HttpStatusCode.InternalServerError);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://whatever-url");
+            return await mockHttp.ToHttpClient().SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> NoContentTypeHeader()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+            var stringContent = new StringContent(String.Empty);
+            stringContent.Headers.ContentType = null;
+            mockHttp.When("https://whatever-url").Respond(HttpStatusCode.OK, stringContent);
 
             var request = new HttpRequestMessage(HttpMethod.Get, "https://whatever-url");
             return await mockHttp.ToHttpClient().SendAsync(request);
