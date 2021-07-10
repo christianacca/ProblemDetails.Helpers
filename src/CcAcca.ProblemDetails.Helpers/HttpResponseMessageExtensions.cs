@@ -38,6 +38,15 @@ namespace CcAcca.ProblemDetails.Helpers
                 problem.Extensions[GetExtensionValueKey("correlationId")] = traceId;
             }
 
+            // Disposing the content should help users: If users call EnsureNotProblemDetailAsync(), an exception is
+            // thrown if the response is a ProblemDetails. I.e. the behavior is similar to a failed request (e.g.
+            // connection failure). Users don't expect to dispose the content in this case: If an exception is
+            // thrown, the object is responsible fore cleaning up its state.
+            if (source.Content != null)
+            {
+                source.Content.Dispose();
+            }
+
             throw new ProblemDetailsException(problem);
         }
 
