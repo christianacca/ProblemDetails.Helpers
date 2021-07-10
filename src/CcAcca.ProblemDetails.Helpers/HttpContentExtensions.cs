@@ -40,9 +40,13 @@ namespace CcAcca.ProblemDetails.Helpers
         /// </remarks>
         /// <param name="content">The content to deserialize</param>
         /// <param name="ct">The cancellation token to cancel the operation</param>
-        public static async Task<MvcProblemDetails> ReadAsProblemDetailsAsync(this HttpContent content, CancellationToken ct)
+        public static async Task<MvcProblemDetails> ReadAsProblemDetailsAsync(this HttpContent content,
+            CancellationToken ct)
         {
-            if (!content.IsProblemDetails()) return await Task.FromResult<MvcProblemDetails>(null).ConfigureAwait(false);
+            if (!content.IsProblemDetails())
+            {
+                return await Task.FromResult<MvcProblemDetails>(null).ConfigureAwait(false);
+            }
 
             var rawProblem = await content.ReadAsStringAsync(ct).ConfigureAwait(false);
 
@@ -84,7 +88,8 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <param name="content">The content to deserialize</param>
         /// <param name="ct">The cancellation token to cancel the operation</param>
         /// <typeparam name="T">The target type to deserialize</typeparam>
-        public static async Task<T> ReadAsProblemDetailsAsync<T>(this HttpContent content, CancellationToken ct) where T : MvcProblemDetails
+        public static async Task<T> ReadAsProblemDetailsAsync<T>(this HttpContent content, CancellationToken ct)
+            where T : MvcProblemDetails
         {
             if (!content.IsProblemDetails()) return await Task.FromResult<T>(null).ConfigureAwait(false);
 
