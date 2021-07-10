@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2021-07-10
+
+### Added
+
+- Support `CancellationToken` on any async method
+- New `HttpClient` Get,Put,Post,Delete extension methods inspired by System.Net.Http.Json
+
+### Fixed
+
+- should use `ConfigureAwait(false)` on any async method
+- `EnsureNotProblemDetailAsync`: the `Content` on a problematic response should be disposed
+
 ## [1.0.4] - 2021-05-05
 
 ### Fixed
