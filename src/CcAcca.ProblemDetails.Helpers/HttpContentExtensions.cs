@@ -25,23 +25,9 @@ namespace CcAcca.ProblemDetails.Helpers
         ///     deserialized as a <see cref="MvcProblemDetails" /> instance
         /// </remarks>
         /// <param name="content">The content to deserialize</param>
-        public static Task<MvcProblemDetails> ReadAsProblemDetailsAsync(this HttpContent content) =>
-            content.ReadAsProblemDetailsAsync(CancellationToken.None);
-
-        /// <summary>
-        ///     Deserialize the content of the HTTP content as a <see cref="MvcProblemDetails" />. Returns <c>Null</c>
-        ///     where there the content is empty or does not have the ProblemDetails media type
-        /// </summary>
-        /// <remarks>
-        ///     A "best-effort" attempt will be made to discover whether to deserialize to a
-        ///     <see cref="ValidationProblemDetails" /> where there is an errors field that has the shape of the
-        ///     <see cref="ValidationProblemDetails.Errors" /> dictionary. Otherwise the content will be
-        ///     deserialized as a <see cref="MvcProblemDetails" /> instance
-        /// </remarks>
-        /// <param name="content">The content to deserialize</param>
         /// <param name="ct">The cancellation token to cancel the operation</param>
         public static async Task<MvcProblemDetails> ReadAsProblemDetailsAsync(this HttpContent content,
-            CancellationToken ct)
+            CancellationToken ct = default)
         {
             if (!content.IsProblemDetails())
             {
@@ -77,18 +63,10 @@ namespace CcAcca.ProblemDetails.Helpers
         ///     where there the content is empty or does not have the ProblemDetails media type
         /// </summary>
         /// <param name="content">The content to deserialize</param>
-        /// <typeparam name="T">The target type to deserialize</typeparam>
-        public static Task<T> ReadAsProblemDetailsAsync<T>(this HttpContent content) where T : MvcProblemDetails =>
-            ReadAsProblemDetailsAsync<T>(content, CancellationToken.None);
-
-        /// <summary>
-        ///     Deserialize the content of the HTTP content as a <see cref="MvcProblemDetails" />. Returns <c>Null</c>
-        ///     where there the content is empty or does not have the ProblemDetails media type
-        /// </summary>
-        /// <param name="content">The content to deserialize</param>
         /// <param name="ct">The cancellation token to cancel the operation</param>
         /// <typeparam name="T">The target type to deserialize</typeparam>
-        public static async Task<T> ReadAsProblemDetailsAsync<T>(this HttpContent content, CancellationToken ct)
+        public static async Task<T> ReadAsProblemDetailsAsync<T>(this HttpContent content,
+            CancellationToken ct = default)
             where T : MvcProblemDetails
         {
             if (!content.IsProblemDetails()) return await Task.FromResult<T>(null).ConfigureAwait(false);

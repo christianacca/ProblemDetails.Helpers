@@ -25,25 +25,7 @@ namespace CcAcca.ProblemDetails.Helpers
         ///         added to <see cref="ProblemDetails.Extensions" /> as CorrelationId
         ///     </para>
         /// </remarks>
-        public static Task EnsureNotProblemDetailAsync(this HttpResponseMessage source) =>
-            EnsureNotProblemDetailAsync(source, CancellationToken.None);
-
-        /// <summary>
-        ///     Throws a <see cref="ProblemDetailsException" /> if the <paramref name="source" /> represents a
-        ///     ProblemDetails response
-        /// </summary>
-        /// <remarks>
-        ///     <para>
-        ///         Where the hosting app has added the <see cref="ProblemDetailsMiddleware" /> to it's middleware pipeline
-        ///         then the <see cref="ProblemDetailsException" /> thrown here will be returned as the response for the
-        ///         current request
-        ///     </para>
-        ///     <para>
-        ///         Any TraceId field found on the deserialized ProblemDetails instance will be re-mapped and
-        ///         added to <see cref="ProblemDetails.Extensions" /> as CorrelationId
-        ///     </para>
-        /// </remarks>
-        public static async Task EnsureNotProblemDetailAsync(this HttpResponseMessage source, CancellationToken ct)
+        public static async Task EnsureNotProblemDetailAsync(this HttpResponseMessage source, CancellationToken ct = default)
         {
             if (!source.Content.IsProblemDetails()) return;
 
@@ -85,26 +67,7 @@ namespace CcAcca.ProblemDetails.Helpers
         ///         added to <see cref="ProblemDetails.Extensions" /> as CorrelationId
         ///     </para>
         /// </remarks>
-        public static Task EnsureSuccessAsync(this HttpResponseMessage source) =>
-            EnsureSuccessAsync(source, CancellationToken.None);
-
-        /// <summary>
-        ///     Drop in replacement for <see cref="HttpResponseMessage.EnsureSuccessStatusCode" /> that throws a
-        ///     <see cref="ProblemDetailsException" /> if the <paramref name="source" /> represents a ProblemDetails
-        ///     response otherwise falling back to calling <see cref="HttpResponseMessage.EnsureSuccessStatusCode" />
-        /// </summary>
-        /// <remarks>
-        ///     <para>
-        ///         Where the hosting app has added the <see cref="ProblemDetailsMiddleware" /> to it's middleware pipeline
-        ///         then the <see cref="ProblemDetailsException" /> thrown here will be returned as the response for the
-        ///         current request
-        ///     </para>
-        ///     <para>
-        ///         Any TraceId field found on the deserialized ProblemDetails instance will be re-mapped and
-        ///         added to <see cref="ProblemDetails.Extensions" /> as CorrelationId
-        ///     </para>
-        /// </remarks>
-        public static async Task EnsureSuccessAsync(this HttpResponseMessage source, CancellationToken ct)
+        public static async Task EnsureSuccessAsync(this HttpResponseMessage source, CancellationToken ct = default)
         {
             if (source.Content.IsProblemDetails())
             {
