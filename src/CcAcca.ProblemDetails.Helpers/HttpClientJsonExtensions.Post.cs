@@ -9,57 +9,61 @@ namespace CcAcca.ProblemDetails.Helpers
 {
     public static partial class HttpClientJsonExtensions
     {
-        public static async Task<HttpResponseMessage> EnsurePostAsJsonAsync<TValue>(this HttpClient client,
+        public static async Task<HttpResponseMessage> EnsurePostJsonAsync<TValue>(this HttpClient client,
             string requestUri, TValue value, JsonSerializerOptions options = null,
             CancellationToken cancellationToken = default)
         {
-            var response = await client.PostAsJsonAsync(requestUri, value, options, cancellationToken)
+            var response = await client
+                .PostAsJsonAsync(requestUri, value, options, cancellationToken)
                 .ConfigureAwait(false);
             await response.EnsureSuccessAsync(cancellationToken).ConfigureAwait(false);
             return response;
         }
 
-        public static async Task<HttpResponseMessage> EnsurePostAsJsonAsync<TValue>(this HttpClient client,
+        public static async Task<HttpResponseMessage> EnsurePostJsonAsync<TValue>(this HttpClient client,
             Uri requestUri, TValue value, JsonSerializerOptions options = null,
             CancellationToken cancellationToken = default)
         {
-            var response = await client.PostAsJsonAsync(requestUri, value, options, cancellationToken)
+            var response = await client
+                .PostAsJsonAsync(requestUri, value, options, cancellationToken)
                 .ConfigureAwait(false);
             await response.EnsureSuccessAsync(cancellationToken).ConfigureAwait(false);
             return response;
         }
 
-        public static Task<HttpResponseMessage> EnsurePostAsJsonAsync<TValue>(this HttpClient client, string requestUri,
+        public static Task<HttpResponseMessage> EnsurePostJsonAsync<TValue>(this HttpClient client, string requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.EnsurePostAsJsonAsync(requestUri, value, null, cancellationToken);
+            client.EnsurePostJsonAsync(requestUri, value, null, cancellationToken);
 
-        public static Task<HttpResponseMessage> EnsurePostAsJsonAsync<TValue>(this HttpClient client, Uri requestUri,
+        public static Task<HttpResponseMessage> EnsurePostJsonAsync<TValue>(this HttpClient client, Uri requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.EnsurePostAsJsonAsync(requestUri, value, null, cancellationToken);
+            client.EnsurePostJsonAsync(requestUri, value, null, cancellationToken);
 
-        public static async Task<TResult> PostAsJsonAsync<TValue, TResult>(
+        public static async Task<TResult> EnsurePostJsonAsync<TValue, TResult>(
             this HttpClient client, string requestUri, TValue value, JsonSerializerOptions options = null,
             CancellationToken cancellationToken = default)
         {
-            var response = await client.EnsurePostAsJsonAsync(requestUri, value, options, cancellationToken)
+            using var response = await client
+                .EnsurePostJsonAsync(requestUri, value, options, cancellationToken)
                 .ConfigureAwait(false);
             return await response.Content.ReadFromJsonAsync<TResult>(options, cancellationToken).ConfigureAwait(false);
         }
 
-        public static async Task<TResult> PostAsJsonAsync<TValue, TResult>(this HttpClient client, Uri requestUri,
+        public static async Task<TResult> EnsurePostJsonAsync<TValue, TResult>(this HttpClient client, Uri requestUri,
             TValue value, JsonSerializerOptions options = null, CancellationToken cancellationToken = default)
         {
-            var response = await client.EnsurePostAsJsonAsync(requestUri, value, options, cancellationToken)
+            using var response = await client
+                .EnsurePostJsonAsync(requestUri, value, options, cancellationToken)
                 .ConfigureAwait(false);
             return await response.Content.ReadFromJsonAsync<TResult>(options, cancellationToken).ConfigureAwait(false);
         }
 
-        public static Task<TResult> PostAsJsonAsync<TValue, TResult>(this HttpClient client, string requestUri,
+        public static Task<TResult> EnsurePostJsonAsync<TValue, TResult>(this HttpClient client, string requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.PostAsJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
+            client.EnsurePostJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
 
-        public static Task<TResult> PostAsJsonAsync<TValue, TResult>(this HttpClient client, Uri requestUri,
+        public static Task<TResult> EnsurePostJsonAsync<TValue, TResult>(this HttpClient client, Uri requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.PostAsJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
+            client.EnsurePostJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
     }
 }
