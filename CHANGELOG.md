@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2021-07-11
+
+### Added
+
+- `HttpClientJsonExtensions`: new non-generic overloads
+- `HttpClientJsonExtensions`: new `EnsureSendAsync` extension method
+
 ## [2.0.1] - 2021-07-11
 
 ### Refactor

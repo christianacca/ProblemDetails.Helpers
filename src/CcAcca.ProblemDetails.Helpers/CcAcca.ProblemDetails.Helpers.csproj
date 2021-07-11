@@ -5,11 +5,13 @@
         <Authors>Christian Crowhurst</Authors>
         <Owners>christianacca</Owners>
         <Description>Utility code for working with ProblemDetails</Description>
-        <Version>2.0.1</Version>
+        <Version>2.1.0</Version>
         <PackageLicenseUrl>https://raw.githubusercontent.com/christianacca/ProblemDetails.Helpers/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/christianacca/ProblemDetails.Helpers</RepositoryUrl>
         <PackageTags>error exception RFC7807</PackageTags>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CS1701;CS1702;CS1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

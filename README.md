@@ -8,6 +8,7 @@ Utility code for working with ProblemDetails.
 * [HttpResponseMessageExtensions](src/CcAcca.ProblemDetails.Helpers/HttpResponseMessageExtensions.cs): drop-in replacement for `EnsureSuccessStatusCode` that will throw a `ProblemDetailsException`
 * [JsonProblemDetailsConverter](src/CcAcca.ProblemDetails.Helpers/JsonProblemDetailsConverter.cs): convenience class for serializing/deserializing `ProblemDetails`
 * [ProblemDetailsExtensions](src/CcAcca.ProblemDetails.Helpers/ProblemDetailsExtensions.cs): extension methods for `ProblemDetails`
+* GET, POST, PUT, DELETE extension methods that compliments / replaces [System.Net.Http.Json.HttpClientJsonExtensions](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.json.httpclientjsonextensions?view=net-5.0)
 
 ## Usage
 
