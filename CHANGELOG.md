@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2021-07-11
+
+### Refactor
+
+- simplify overloads that accept `CancellationToken`
+
+### Fixed
+
+- `HttpClientJsonExtensions`: avoid ambiguous reference with System.Net.Http.Json methods + ensure disposal of failed response
+- `HttpClientJsonExtensions`: ensure disposal of failed response
+
 ## [2.0.0] - 2021-07-10
 
 ### Added
