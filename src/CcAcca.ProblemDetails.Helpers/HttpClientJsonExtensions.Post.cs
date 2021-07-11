@@ -33,11 +33,31 @@ namespace CcAcca.ProblemDetails.Helpers
 
         public static Task<HttpResponseMessage> EnsurePostJsonAsync<TValue>(this HttpClient client, string requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.EnsurePostJsonAsync(requestUri, value, null, cancellationToken);
+            client.EnsurePostJsonAsync(requestUri, value, (JsonSerializerOptions)null, cancellationToken);
 
         public static Task<HttpResponseMessage> EnsurePostJsonAsync<TValue>(this HttpClient client, Uri requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.EnsurePostJsonAsync(requestUri, value, null, cancellationToken);
+            client.EnsurePostJsonAsync(requestUri, value, (JsonSerializerOptions)null, cancellationToken);
+
+
+        public static async Task<object> EnsurePostJsonAsync<TValue>(
+            this HttpClient client, string requestUri, TValue value, Type type, JsonSerializerOptions options = null,
+            CancellationToken cancellationToken = default)
+        {
+            using var response = await client
+                .EnsurePostJsonAsync(requestUri, value, options, cancellationToken)
+                .ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync(type, options, cancellationToken).ConfigureAwait(false);
+        }
+
+        public static async Task<object> EnsurePostJsonAsync<TValue>(this HttpClient client, Uri requestUri,
+            TValue value, Type type, JsonSerializerOptions options = null, CancellationToken cancellationToken = default)
+        {
+            using var response = await client
+                .EnsurePostJsonAsync(requestUri, value, options, cancellationToken)
+                .ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync(type, options, cancellationToken).ConfigureAwait(false);
+        }
 
         public static async Task<TResult> EnsurePostJsonAsync<TValue, TResult>(
             this HttpClient client, string requestUri, TValue value, JsonSerializerOptions options = null,
@@ -58,12 +78,20 @@ namespace CcAcca.ProblemDetails.Helpers
             return await response.Content.ReadFromJsonAsync<TResult>(options, cancellationToken).ConfigureAwait(false);
         }
 
+        public static Task<object> EnsurePostJsonAsync<TValue>(this HttpClient client, string requestUri,
+            TValue value, Type type, CancellationToken cancellationToken = default) =>
+            client.EnsurePostJsonAsync(requestUri, value, type, null, cancellationToken);
+
+        public static Task<object> EnsurePostJsonAsync<TValue>(this HttpClient client, Uri requestUri,
+            TValue value, Type type, CancellationToken cancellationToken = default) =>
+            client.EnsurePostJsonAsync(requestUri, value, type, null, cancellationToken);
+
         public static Task<TResult> EnsurePostJsonAsync<TValue, TResult>(this HttpClient client, string requestUri,
-            TValue value, CancellationToken cancellationToken) =>
+            TValue value, CancellationToken cancellationToken = default) =>
             client.EnsurePostJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
 
         public static Task<TResult> EnsurePostJsonAsync<TValue, TResult>(this HttpClient client, Uri requestUri,
-            TValue value, CancellationToken cancellationToken) =>
+            TValue value, CancellationToken cancellationToken = default) =>
             client.EnsurePostJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
     }
 }
