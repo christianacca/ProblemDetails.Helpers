@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Mvc;
 using MvcProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace CcAcca.ProblemDetails.Helpers

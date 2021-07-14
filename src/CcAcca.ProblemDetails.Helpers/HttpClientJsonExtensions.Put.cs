@@ -376,7 +376,7 @@ namespace CcAcca.ProblemDetails.Helpers
         ///     for <paramref name="returnType" /> or its serializable members.
         /// </exception>
         public static Task<object> EnsurePutJsonAsync<TValue>(this HttpClient client, string requestUri,
-            TValue value, Type returnType, CancellationToken cancellationToken = default) =>
+            TValue value, Type returnType, CancellationToken cancellationToken) =>
             client.EnsurePutJsonAsync(requestUri, value, returnType, null, cancellationToken);
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace CcAcca.ProblemDetails.Helpers
         ///     for <paramref name="returnType" /> or its serializable members.
         /// </exception>
         public static Task<object> EnsurePutJsonAsync<TValue>(this HttpClient client, Uri requestUri,
-            TValue value, Type returnType, CancellationToken cancellationToken = default) =>
+            TValue value, Type returnType, CancellationToken cancellationToken) =>
             client.EnsurePutJsonAsync(requestUri, value, returnType, null, cancellationToken);
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace CcAcca.ProblemDetails.Helpers
         ///     for <typeparamref name="TValue" /> or its serializable members.
         /// </exception>
         public static Task<TResult> EnsurePutJsonAsync<TValue, TResult>(this HttpClient client, string requestUri,
-            TValue value, CancellationToken cancellationToken = default) =>
+            TValue value, CancellationToken cancellationToken) =>
             client.EnsurePutJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
 
         /// <summary>
@@ -490,7 +490,7 @@ namespace CcAcca.ProblemDetails.Helpers
         ///     for <typeparamref name="TValue" /> or its serializable members.
         /// </exception>
         public static Task<TResult> EnsurePutJsonAsync<TValue, TResult>(this HttpClient client, Uri requestUri,
-            TValue value, CancellationToken cancellationToken = default) =>
+            TValue value, CancellationToken cancellationToken) =>
             client.EnsurePutJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
     }
 }

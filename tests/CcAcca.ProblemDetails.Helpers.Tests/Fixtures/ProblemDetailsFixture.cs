@@ -7,9 +7,9 @@ namespace CcAcca.ProblemDetails.Helpers.Tests.Fixtures
 {
     public class ProblemDetailsFixture
     {
-        public static ProblemDetailsFixture Instance { get; } = new ProblemDetailsFixture();
+        public static ProblemDetailsFixture Instance { get; } = new();
 
-        public MvcProblemDetails BadRequest { get; } = new MvcProblemDetails
+        public MvcProblemDetails BadRequest { get; } = new()
         {
             Type = "https://httpstatuses.com/400",
             Title = "One or more validation errors occurred.",
@@ -17,7 +17,7 @@ namespace CcAcca.ProblemDetails.Helpers.Tests.Fixtures
             Detail = "Some details that explains problem to user"
         };
 
-        public Dictionary<string, string[]> ValidationErrors { get; } = new Dictionary<string, string[]>
+        public Dictionary<string, string[]> ValidationErrors { get; } = new()
         {
             {"Reference", new[] {"The Reference field is required."}},
             {"AccountNumber", new[] {"The AccountNumber field is required."}}
