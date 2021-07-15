@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2021-07-15
+
+### Added
+
+- `HttpClientJsonExtensions`: new `EnsureSendAsync` overloads
+
+### Fixed
+
+- `HttpClientJsonExtensions`: ambiguous overloads
+
 ## [2.1.0] - 2021-07-11
 
 ### Added
