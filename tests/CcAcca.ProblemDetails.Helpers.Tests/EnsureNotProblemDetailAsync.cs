@@ -85,7 +85,7 @@ namespace CcAcca.ProblemDetails.Helpers.Tests
                 .Which.Details.Should().BeEquivalentTo(expected);
         }
 
-        [Fact]
+        [Fact(Skip = "This test modifies a static field and is causing test flake")]
         public async void CorrelationId_Should_Use_Configured_Casing()
         {
             // IMPORTANT: This is causing flaky tests as we're modifying static fields and yet xunit will run
