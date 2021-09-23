@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2021-09-23
+
+### Added
+
+- `HttpClientJsonExtensions`: new `EnsurePatchJsonAsync` overloads
+
 ## [2.2.0] - 2021-07-15
 
 ### Added
