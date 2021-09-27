@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.1] - 2021-09-27
+
+### Fixed
+
+- `HttpClientJsonExtensions`: `EnsurePatchJsonAsync` default serialization options should ignore null values
+
 ## [2.3.0] - 2021-09-23
 
 ### Added
