@@ -29,27 +29,18 @@ namespace CcAcca.ProblemDetails.Helpers
     {
         static JsonProblemDetailsConverter()
         {
-            // note: copy of the code in new JsonOptions().JsonSerializerOptions to avoid more external dependencies
-            SerializerOptions = new JsonSerializerOptions
+            SerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
             {
                 // Limit the object graph we'll consume to a fixed depth. This prevents stackoverflow exceptions
                 // from deserialization errors that might occur from deeply nested objects.
                 // This value is the same for model binding and Json.Net's serialization.
                 MaxDepth = 32,
 
-                // We're using case-insensitive because there's a TON of code that there that does uses JSON.NET's default
-                // settings (preserve case) - including the WebAPIClient. This worked when we were using JSON.NET + camel casing
-                // because JSON.NET is case-insensitive by default.
-                PropertyNameCaseInsensitive = true,
-
-                // Use camel casing for properties
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                // note: for some reason serializing *sub-classed* ProblemDetails does NOT ignore null property values
+                // to keep consistency with the serialization behaviour of built-in ProblemDetails we're explicitly
+                // configuring
+                IgnoreNullValues = true,
             };
-
-            // note: for some reason serializing *sub-classed* ProblemDetails does NOT ignore null property values
-            // to keep consistency with the serialization behaviour of built-in ProblemDetails we're explicitly
-            // configuring
-            SerializerOptions.IgnoreNullValues = true;
         }
 
         public static JsonSerializerOptions SerializerOptions { get; internal set; }
