@@ -10,6 +10,11 @@ namespace CcAcca.ProblemDetails.Helpers
 {
     public static partial class HttpClientJsonExtensions
     {
+        private static readonly JsonSerializerOptions DefaultSerializerOptions = new(JsonSerializerDefaults.Web)
+        {
+            IgnoreNullValues = true
+        };
+
         /// <summary>
         ///     Send a PATCH request to the specified Uri containing the <paramref name="value" /> serialized as JSON in
         ///     the request body, throwing an exception when the HTTP response is unsuccessful
@@ -18,8 +23,9 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <param name="client">The client used to send the request.</param>
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <param name="options">
-        ///     Options to control the behavior during serialization. The default options are those specified by
-        ///     <see cref="JsonSerializerDefaults.Web" />
+        ///     Options to control the behavior during serialization. The default options are
+        ///     <see cref="JsonSerializerDefaults.Web" /> + <see cref="JsonSerializerOptions.IgnoreNullValues" />
+        ///     set to <c>true</c>
         /// </param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -46,7 +52,7 @@ namespace CcAcca.ProblemDetails.Helpers
 
             var request = new HttpRequestMessage(HttpMethod.Patch, requestUri)
             {
-                Content = JsonContent.Create(value, options: options)
+                Content = JsonContent.Create(value, options: options ?? DefaultSerializerOptions)
             };
             return client.EnsureSendAsync(request, cancellationToken);
         }
@@ -59,8 +65,9 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <param name="client">The client used to send the request.</param>
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <param name="options">
-        ///     Options to control the behavior during serialization. The default options are those specified by
-        ///     <see cref="JsonSerializerDefaults.Web" />
+        ///     Options to control the behavior during serialization. The default options are
+        ///     <see cref="JsonSerializerDefaults.Web" /> + <see cref="JsonSerializerOptions.IgnoreNullValues" />
+        ///     set to <c>true</c>
         /// </param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -87,7 +94,7 @@ namespace CcAcca.ProblemDetails.Helpers
 
             var request = new HttpRequestMessage(HttpMethod.Patch, requestUri)
             {
-                Content = JsonContent.Create(value, options: options)
+                Content = JsonContent.Create(value, options: options ?? DefaultSerializerOptions)
             };
             return client.EnsureSendAsync(request, cancellationToken);
         }
@@ -118,7 +125,7 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <exception cref="TaskCanceledException">The request failed due to timeout.</exception>
         public static Task<HttpResponseMessage> EnsurePatchJsonAsync<TValue>(this HttpClient client, string requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.EnsurePatchJsonAsync(requestUri, value, (JsonSerializerOptions) null, cancellationToken);
+            client.EnsurePatchJsonAsync(requestUri, value, DefaultSerializerOptions, cancellationToken);
 
         /// <summary>
         ///     Send a PATCH request to the specified Uri containing the <paramref name="value" /> serialized as JSON in
@@ -146,7 +153,7 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <exception cref="TaskCanceledException">The request failed due to timeout.</exception>
         public static Task<HttpResponseMessage> EnsurePatchJsonAsync<TValue>(this HttpClient client, Uri requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.EnsurePatchJsonAsync(requestUri, value, (JsonSerializerOptions) null, cancellationToken);
+            client.EnsurePatchJsonAsync(requestUri, value, DefaultSerializerOptions, cancellationToken);
 
 
         /// <summary>
@@ -158,8 +165,9 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <param name="client">The client used to send the request.</param>
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <param name="options">
-        ///     Options to control the behavior during serialization and deserialization. The default options are
-        ///     those specified by <see cref="JsonSerializerDefaults.Web" />
+        ///     Options to control the behavior during serialization. The default options are
+        ///     <see cref="JsonSerializerDefaults.Web" /> + <see cref="JsonSerializerOptions.IgnoreNullValues" />
+        ///     set to <c>true</c>
         /// </param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -192,6 +200,7 @@ namespace CcAcca.ProblemDetails.Helpers
             JsonSerializerOptions options = null,
             CancellationToken cancellationToken = default)
         {
+            options ??= DefaultSerializerOptions;
             using var response = await client
                 .EnsurePatchJsonAsync(requestUri, value, options, cancellationToken)
                 .ConfigureAwait(false);
@@ -208,8 +217,9 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <param name="client">The client used to send the request.</param>
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <param name="options">
-        ///     Options to control the behavior during serialization and deserialization. The default options are
-        ///     those specified by <see cref="JsonSerializerDefaults.Web" />
+        ///     Options to control the behavior during serialization. The default options are
+        ///     <see cref="JsonSerializerDefaults.Web" /> + <see cref="JsonSerializerOptions.IgnoreNullValues" />
+        ///     set to <c>true</c>
         /// </param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -241,6 +251,7 @@ namespace CcAcca.ProblemDetails.Helpers
             TValue value, Type returnType, JsonSerializerOptions options = null,
             CancellationToken cancellationToken = default)
         {
+            options ??= DefaultSerializerOptions;
             using var response = await client
                 .EnsurePatchJsonAsync(requestUri, value, options, cancellationToken)
                 .ConfigureAwait(false);
@@ -258,8 +269,9 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <param name="client">The client used to send the request.</param>
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <param name="options">
-        ///     Options to control the behavior during serialization and deserialization. The default options are
-        ///     those specified by <see cref="JsonSerializerDefaults.Web" />
+        ///     Options to control the behavior during serialization. The default options are
+        ///     <see cref="JsonSerializerDefaults.Web" /> + <see cref="JsonSerializerOptions.IgnoreNullValues" />
+        ///     set to <c>true</c>
         /// </param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -290,6 +302,7 @@ namespace CcAcca.ProblemDetails.Helpers
             this HttpClient client, string requestUri, TValue value, JsonSerializerOptions options = null,
             CancellationToken cancellationToken = default)
         {
+            options ??= DefaultSerializerOptions;
             using var response = await client
                 .EnsurePatchJsonAsync(requestUri, value, options, cancellationToken)
                 .ConfigureAwait(false);
@@ -306,8 +319,9 @@ namespace CcAcca.ProblemDetails.Helpers
         /// <param name="client">The client used to send the request.</param>
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <param name="options">
-        ///     Options to control the behavior during serialization and deserialization. The default options are
-        ///     those specified by <see cref="JsonSerializerDefaults.Web" />
+        ///     Options to control the behavior during serialization. The default options are
+        ///     <see cref="JsonSerializerDefaults.Web" /> + <see cref="JsonSerializerOptions.IgnoreNullValues" />
+        ///     set to <c>true</c>
         /// </param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -337,6 +351,7 @@ namespace CcAcca.ProblemDetails.Helpers
         public static async Task<TResult> EnsurePatchJsonAsync<TValue, TResult>(this HttpClient client, Uri requestUri,
             TValue value, JsonSerializerOptions options = null, CancellationToken cancellationToken = default)
         {
+            options ??= DefaultSerializerOptions;
             using var response = await client
                 .EnsurePatchJsonAsync(requestUri, value, options, cancellationToken)
                 .ConfigureAwait(false);
@@ -379,7 +394,8 @@ namespace CcAcca.ProblemDetails.Helpers
         /// </exception>
         public static Task<object> EnsurePatchJsonAsync<TValue>(this HttpClient client, string requestUri,
             TValue value, Type returnType, CancellationToken cancellationToken) =>
-            client.EnsurePatchJsonAsync(requestUri, value, returnType, null, cancellationToken);
+            client
+            .EnsurePatchJsonAsync(requestUri, value, returnType, DefaultSerializerOptions, cancellationToken);
 
         /// <summary>
         ///     Send a PATCH request to the specified Uri containing the <paramref name="value" /> serialized as JSON in
@@ -417,7 +433,8 @@ namespace CcAcca.ProblemDetails.Helpers
         /// </exception>
         public static Task<object> EnsurePatchJsonAsync<TValue>(this HttpClient client, Uri requestUri,
             TValue value, Type returnType, CancellationToken cancellationToken) =>
-            client.EnsurePatchJsonAsync(requestUri, value, returnType, null, cancellationToken);
+            client
+                .EnsurePatchJsonAsync(requestUri, value, returnType, DefaultSerializerOptions, cancellationToken);
 
         /// <summary>
         ///     Send a PATCH request to the specified Uri containing the <paramref name="value" /> serialized as JSON in
@@ -455,7 +472,8 @@ namespace CcAcca.ProblemDetails.Helpers
         /// </exception>
         public static Task<TResult> EnsurePatchJsonAsync<TValue, TResult>(this HttpClient client, string requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.EnsurePatchJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
+            client
+                .EnsurePatchJsonAsync<TValue, TResult>(requestUri, value, DefaultSerializerOptions, cancellationToken);
 
         /// <summary>
         ///     Send a PATCH request to the specified Uri containing the <paramref name="value" /> serialized as JSON in
@@ -493,6 +511,7 @@ namespace CcAcca.ProblemDetails.Helpers
         /// </exception>
         public static Task<TResult> EnsurePatchJsonAsync<TValue, TResult>(this HttpClient client, Uri requestUri,
             TValue value, CancellationToken cancellationToken) =>
-            client.EnsurePatchJsonAsync<TValue, TResult>(requestUri, value, null, cancellationToken);
+            client
+                .EnsurePatchJsonAsync<TValue, TResult>(requestUri, value, DefaultSerializerOptions, cancellationToken);
     }
 }
