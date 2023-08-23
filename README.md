@@ -1,4 +1,4 @@
-# ProblemDetails.Helpers [![Build Status](https://dev.azure.com/christianacca/ProblemDetails.Helpers/_apis/build/status/christianacca.ProblemDetails.Helpers?branchName=master)](https://dev.azure.com/christianacca/ProblemDetails.Helpers/_build/latest?definitionId=7&branchName=master)
+# ProblemDetails.Helpers ![Build Status](https://github.com/christianacca/ProblemDetails.Helpers/actions/workflows/library-ci.yml/badge.svg)
 
 ## Overview
 
@@ -39,7 +39,7 @@ To build and run tests you can use:
 
 ## CI server
 
-[Azure Devops](https://dev.azure.com/christianacca/ProblemDetails.Helpers) is used to run the dotnet cli tool to perform the build and test. See the [yaml build definition](azure-pipelines.yml) for details.
+[Github actions](https://github.com/christianacca/ProblemDetails.Helpers/actions) is used to run the dotnet cli tool to perform the build and test. See the [yaml build definition](.github/workflows/library-ci.yml) for details.
 
 Notes:
 
